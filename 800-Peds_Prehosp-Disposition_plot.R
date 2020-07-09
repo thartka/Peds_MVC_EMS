@@ -54,6 +54,7 @@ dispo$eDisposition_12_desc <- factor(dispo$eDisposition_12_desc,
 levels(dispo$eDisposition_12_desc)
 
 ggplot(dispo, aes(x=division)) + 
+  scale_x_discrete(limits = rev(levels(as.factor(trans$division)))) +
   geom_bar(stat="identity",aes(y=Percent,fill=eDisposition_12_desc)) + 
   coord_flip() + 
   scale_fill_grey() +
@@ -74,6 +75,7 @@ trans <- peds_MVCs %>%
   summarise(freq=sum(trans==0)/n()) 
 
 ggplot(trans, aes(x=division)) + 
+  scale_x_discrete(limits = rev(levels(as.factor(trans$division)))) +
   geom_bar(stat="identity",aes(y=freq)) + 
   coord_flip() + 
   scale_fill_grey() +

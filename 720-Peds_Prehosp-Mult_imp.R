@@ -51,7 +51,7 @@ peds_MVCs$lowest_gcs <- ifelse(peds_MVCs$lowest_gcs == -9, NA, peds_MVCs$lowest_
 #
 
 # convert outcome to 1 (Transported) and 0 (Nontransported)
-peds_MVCs <- peds_MVCs %>% mutate(dispo_MVC = ifelse(dispo_MVC=="Transported",1,0))
+peds_MVCs <- peds_MVCs %>% mutate(dispo_MVC = ifelse(dispo_MVC=="Non-transported",1,0))
 
 peds_MVCs$age_cat <- factor(peds_MVCs$age_cat, levels = c("<1 year",
                                                           "1 year",
@@ -63,6 +63,7 @@ peds_MVCs$age_cat <- factor(peds_MVCs$age_cat, levels = c("<1 year",
 peds_MVCs$ams <- ifelse(peds_MVCs$lowest_gcs < 15, 1, 0)
 peds_MVCs$ams <- factor(peds_MVCs$ams)
 levels(peds_MVCs$ams) <- c("No", "Yes")
+peds_MVCs$ams <- relevel(peds_MVCs$ams,"Yes")
 peds_MVCs <- peds_MVCs %>%  select(-lowest_gcs)
 
 peds_MVCs$level_of_care <-factor(peds_MVCs$level_of_care, levels = c("BLS",
@@ -107,5 +108,5 @@ uni_output <- univar_table(peds_MVCs_imp, vars, "dispo_MVC")
 multi_output <- multivar_table(peds_MVCs_imp, vars, "dispo_MVC")
 
 # output tables
-write_csv(uni_output, "./Data/Results/Peds_Prehosp-Univar_analysis_imp.csv")
-write_csv(multi_output, "./Data/Results/Peds_Prehosp-Multivar_analysis_imp.csv")
+write_csv(uni_output, "./Data/Results/Peds_Prehosp-Univar_analysis_mimp.csv")
+write_csv(multi_output, "./Data/Results/Peds_Prehosp-Multivar_analysis_mimp.csv")

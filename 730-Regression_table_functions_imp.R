@@ -164,7 +164,7 @@ multivar_table <- function(multi_data, predictor_vars, response_var, odds_sigdig
       
       # get upper and lower 95% CI
       t_odds_low <- round(sum$`2.5 %`[[i]], digits = odds_sigdig)
-      t_odds_high <- round(sum$`97.5 %`[[1]], digits = odds_sigdig)
+      t_odds_high <- round(sum$`97.5 %`[[i]], digits = odds_sigdig)
       
       # assemble value and CI
       t_odds <- paste(format(t_odds, nsmall = odds_sigdig), 

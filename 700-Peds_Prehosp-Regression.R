@@ -40,8 +40,8 @@ if(filter_imputed){peds_MVCs <- peds_MVCs %>% filter(imputated==FALSE)}
 # convert all strings to factors
 #peds_MVCs <- peds_MVCs %>% mutate_if(is.character, as.factor)
 
-# convert outcome to 1 (Transported) and 0 (Nontransported)
-peds_MVCs <- peds_MVCs %>% mutate(dispo_MVC = ifelse(dispo_MVC=="Transported",1,0))
+# convert outcome to 0 (Transported) and 1 (Nontransported)
+peds_MVCs <- peds_MVCs %>% mutate(dispo_MVC = ifelse(dispo_MVC=="Non-transported",1,0))
 
 peds_MVCs$age_cat <- factor(peds_MVCs$age_cat, levels = c("<1 year",
                                                           "1 year",
@@ -52,6 +52,7 @@ peds_MVCs$age_cat <- factor(peds_MVCs$age_cat, levels = c("<1 year",
 
 peds_MVCs$ams <- factor(peds_MVCs$ams)
 levels(peds_MVCs$ams) <- c("No", "Yes")
+peds_MVCs$ams <- relevel(peds_MVCs$ams,"Yes")
 
 peds_MVCs$level_of_care <-factor(peds_MVCs$level_of_care, levels = c("BLS",
                                                                      "ALS",
@@ -98,5 +99,11 @@ uni_output <- univar_table(peds_MVCs, vars, "dispo_MVC")
 multi_output <- multivar_table(peds_MVCs, vars, "dispo_MVC")
 
 # output tables
-write_csv(uni_output, "./Data/Results/Peds_Prehosp-Univar_analysis.csv")
-write_csv(multi_output, "./Data/Results/Peds_Prehosp-Multivar_analysis.csv")
+if(filter_imputed==TRUE){
+  write_csv(uni_output, "./Data/Results/Peds_Prehosp-Univar_analysis.csv")
+  write_csv(multi_output, "./Data/Results/Peds_Prehosp-Multivar_analysis.csv")
+} else {
+  write_csv(uni_output, "./Data/Results/Peds_Prehosp-Univar_analysis-imp.csv")
+  write_csv(multi_output, "./Data/Results/Peds_Prehosp-Multivar_analysis-imp.csv")
+}
+
